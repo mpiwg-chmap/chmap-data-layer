@@ -1,5 +1,6 @@
 const L = window.L;
 
+const { FloatPanelManagement } = window.chmapUtilities;
 const { DataLayerController } = window.chmapDataLayer;
 
 function initMap() {
@@ -53,7 +54,15 @@ function initSidebar(){
     DataLayerController.bindTriggerButtons({
         importLocalDataBtn: sidebar.querySelector('#importLocalDataBtn'),
         importOnlineDataBtn: sidebar.querySelector('#importOnlineDataBtn'),
-    })
+    });
+
+    FloatPanelManagement.register(DataLayerController, 'metadata-panel', 'right');
+
+    FloatPanelManagement.register(DataLayerController, 'big-image-panel', 'right');
+
+    FloatPanelManagement.register(DataLayerController, 'images-panel', 'left');
+
+    FloatPanelManagement.register(DataLayerController, 'year-metadata-panel', 'right');
 
 }
 
