@@ -47,9 +47,14 @@ const DataLayerController = function() {
         // MetaDataPanel events
         const {on: MetaDataPanel_on} = await import("./floating-panel/metadata-panel");
 
-        const {show: showYearMetadataController} = await import("./floating-panel/year-metadata-controller");
+        if(!YearMetadataPanel) {
 
-        MetaDataPanel_on('showYearMetadata', showYearMetadataController);
+            YearMetadataPanel = await import("./floating-panel/year-metadata-controller");
+
+            bindFloatingPanelEvent(YearMetadataPanel, "year-metadata-panel");
+        }
+
+        MetaDataPanel_on('showYearMetadata', YearMetadataPanel.show);
 
         // DataLayer events
         dataLayer.on('rendered', () => {
@@ -127,20 +132,45 @@ const DataLayerController = function() {
 
     }
 
+    function bindFloatingPanelEvent (panel, eventPrefix){
+
+        panel.on('shown', (panelDOM) => {
+
+            localEventEmitter.emit(`${eventPrefix}.shown`, panelDOM);
+
+        });
+
+        panel.on('hidden', (panelDOM) => {
+
+            localEventEmitter.emit(`${eventPrefix}.hidden`, panelDOM);
+
+        });
+
+    }
+
+    let MetadataPanel = null;
+
     function bindShowNodeInfoBtn(popupRoot) {
 
         const btn = popupRoot.querySelector('.show-node-info-btn');
 
         if (btn && !btn.onclick) {
 
-            btn.onclick = async (e) => {
+            btn.onclick =  async (e) => {
 
-                const {show: showMetaDataPanel} = await import("./floating-panel/metadata-panel");
+                if(!MetadataPanel) {
 
-                showMetaDataPanel(btn.getAttribute('data-node-info'))
+                    MetadataPanel = await import("./floating-panel/metadata-panel");
+
+                    bindFloatingPanelEvent(MetadataPanel, "metadata-panel");
+                }
+
+                MetadataPanel.show(btn.getAttribute('data-node-info'))
             }
         }
     }
+
+    let BigImagePanel = null;
 
     function bindShowBigImage(popupRoot) {
 
@@ -150,17 +180,24 @@ const DataLayerController = function() {
 
             img.onclick = async (e) => {
 
+                if(!BigImagePanel) {
+
+                    BigImagePanel = await import("./floating-panel/big-image-panel");
+
+                    bindFloatingPanelEvent(BigImagePanel, "big-image-panel");
+                }
+
                 const target = e.target;
 
                 const url = target.getAttribute('data-big-image') || target.src;
 
-                const {show: showBigImage} = await import("./floating-panel/big-image-panel");
-
-                showBigImage(url);
+                BigImagePanel.show(url);
             }
         }
 
     }
+
+    let ImagesOfABookPanel = null;
 
     function bindShowImagesOfABook(popupRoot) {
 
@@ -172,11 +209,16 @@ const DataLayerController = function() {
 
             btn.onclick = async () => {
 
-                const {DataLayer} = await import ("./data-layer");
+                const { DataLayer } = await import ("./data-layer");
 
-                const {show: showImagesPanel} = await import("./floating-panel/images-panel");
+                if(!ImagesOfABookPanel) {
 
-                showImagesPanel(DataLayer.getRecsOfABook(bookId));
+                    ImagesOfABookPanel = await import("./floating-panel/images-panel");
+
+                    bindFloatingPanelEvent(ImagesOfABookPanel, "images-panel");
+                }
+
+                ImagesOfABookPanel.show(DataLayer.getRecsOfABook(bookId));
             }
         }
 
@@ -188,16 +230,28 @@ const DataLayerController = function() {
 
         if (btn && !btn.onclick) {
 
+            // if(!ImagesOfABookPanel) {
+            //     ImagesOfABookPanel = new Commons.FloatingPanelClass(
+            //     "./floating-panel/images-panel",
+            //     "images-panel",
+            //     localEventEmitter);
+            // }
+
             const lat = parseFloat(btn.getAttribute('data-lat'));
             const lng = parseFloat(btn.getAttribute('data-lng'));
 
             btn.onclick = async () => {
 
-                const {DataLayer} = await import ("./data-layer");
+                const { DataLayer } = await import ("./data-layer");
 
-                const {show: showImagesPanel} = await import("./floating-panel/images-panel");
+                if(!ImagesOfABookPanel) {
 
-                showImagesPanel(DataLayer.getRecsByALocation(lat, lng));
+                    ImagesOfABookPanel = await import("./floating-panel/images-panel");
+
+                    bindFloatingPanelEvent(ImagesOfABookPanel, "images-panel");
+                }
+
+                ImagesOfABookPanel.show(DataLayer.getRecsByALocation(lat, lng));
             }
         }
 
@@ -222,6 +276,8 @@ const DataLayerController = function() {
 
     }
 
+    let YearMetadataPanel = null;
+
     function bindShowYearMetadata(popupRoot) {
 
         const hypLink = popupRoot.querySelector('.show-year-metadata-btn');
@@ -234,9 +290,14 @@ const DataLayerController = function() {
 
                 e.preventDefault();
 
-                const {show: showYearMetadataController} = await import("./floating-panel/year-metadata-controller");
+                if(!YearMetadataPanel) {
 
-                showYearMetadataController(year);
+                    YearMetadataPanel = await import("./floating-panel/year-metadata-controller");
+
+                    bindFloatingPanelEvent(YearMetadataPanel, "year-metadata-panel");
+                }
+
+                YearMetadataPanel.show(year);
             }
         }
 

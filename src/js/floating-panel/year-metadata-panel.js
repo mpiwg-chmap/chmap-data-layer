@@ -1,11 +1,17 @@
 
-import { BootstrapWrap } from '@chmap/utilities';
+import { Commons, BootstrapWrap } from '@chmap/utilities';
 
 const { Offcanvas } = BootstrapWrap;
+
+const localEventEmitter = new Commons.EventEmitterClass();
 
 let panel = null;
 
 let panelBody = null;
+
+function addEventListener(obj, types, fn, context) {
+    localEventEmitter.on(obj, types, fn, context);
+}
 
 function createUI(){
 
@@ -13,8 +19,9 @@ function createUI(){
 
     const html =
 `<div 
+     id="data-layer-year-metadata-panel"
      class="offcanvas offcanvas-end"
-     style="width:40%;z-index:9997;"
+     style="width:40%;"
      data-bs-scroll="true"
      data-bs-backdrop="false"
      tabindex="-1"
@@ -30,14 +37,29 @@ function createUI(){
 
     document.body.append(div);
 
-    panelBody = div.querySelector('.offcanvas-body');
-
-    panel = new Offcanvas(div.firstChild);
-
+    bindPointersAndEvents(div);
 
 }
 
-export function show(info){
+function bindPointersAndEvents(div) {
+
+    panelBody = div.querySelector('.offcanvas-body');
+
+    const offCanvasDom= div.firstChild;
+
+    panel = new Offcanvas(offCanvasDom);
+
+    // offCanvasDom.addEventListener('shown.bs.offcanvas', () => {
+    //     localEventEmitter.emit('shown', offCanvasDom);
+    // });
+
+    offCanvasDom.addEventListener('hidden.bs.offcanvas', () => {
+        localEventEmitter.emit('hidden', offCanvasDom);
+    });
+
+}
+
+function show(info){
 
     if(!panel){
         createUI();
@@ -46,4 +68,18 @@ export function show(info){
     panelBody.innerHTML = info;
 
     panel.show();
+
+    localEventEmitter.emit('shown', panel._element);
 }
+
+export {
+    show,
+    addEventListener as on,
+}
+
+/* Events
+
+    { name: 'shown', params: panelDom-Object }
+    { name: 'hidden', params: panelDom-Object }
+
+*/

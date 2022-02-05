@@ -21,6 +21,7 @@ function createUI(){
 
     const html =
 `<div 
+     id="data-layer-images-panel"
      class="offcanvas offcanvas-start"
      style="width:40%;"
      data-bs-scroll="true"
@@ -39,11 +40,27 @@ function createUI(){
 
     document.body.append(div);
 
+    bindPointersAndEvents(div);
+
+}
+
+function bindPointersAndEvents(div) {
+
     offCanvasTitle = div.querySelector('.offcanvas-title');
 
     panelBody = div.querySelector('.offcanvas-body');
 
-    panel = new Offcanvas(div.firstChild);
+    const offCanvasDom= div.firstChild;
+
+    panel = new Offcanvas(offCanvasDom);
+
+    // offCanvasDom.addEventListener('shown.bs.offcanvas', () => {
+    //     localEventEmitter.emit('shown', offCanvasDom);
+    // });
+
+    offCanvasDom.addEventListener('hidden.bs.offcanvas', () => {
+        localEventEmitter.emit('hidden', offCanvasDom);
+    });
 
 }
 
@@ -105,6 +122,8 @@ function show(params){
     setContent(params);
 
     panel.show();
+
+    localEventEmitter.emit('shown', panel._element);
 }
 
 export {
@@ -115,5 +134,7 @@ export {
 /* Events
 
     { name: 'showBigImage', params: url-String }
+    { name: 'shown', params: panelDom-Object }
+    { name: 'hidden', params: panelDom-Object }
 
- */
+*/
