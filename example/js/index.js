@@ -18,11 +18,11 @@ function initMap() {
     });
 
     map.whenReady(
-    () => {
-        //sometimes, leaflet component doesn't expand its height in a good result initially.
-        //trigger a window resize event to force it to re-calculate its available height again.
-        window.dispatchEvent(new Event('resize'));
-    }
+        () => {
+            //sometimes, leaflet component doesn't expand its height in a good result initially.
+            //trigger a window resize event to force it to re-calculate its available height again.
+            window.dispatchEvent(new Event('resize'));
+        }
     );
 
     DataLayerController.init(map);
