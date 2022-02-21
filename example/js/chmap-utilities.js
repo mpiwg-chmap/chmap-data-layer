@@ -198,7 +198,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "PHOTO_ICON_SIZE": function() { return /* binding */ PHOTO_ICON_SIZE; },
 /* harmony export */   "PUBLIC_MAP_API_URL": function() { return /* binding */ PUBLIC_MAP_API_URL; },
 /* harmony export */   "IIIF_VIEWER_URL": function() { return /* binding */ IIIF_VIEWER_URL; },
-/* harmony export */   "EXAMPLE_FILES_DIR": function() { return /* binding */ EXAMPLE_FILES_DIR; }
+/* harmony export */   "EXAMPLE_FILES_DIR": function() { return /* binding */ EXAMPLE_FILES_DIR; },
+/* harmony export */   "ENABLE_AVAILABLE_MAPS": function() { return /* binding */ ENABLE_AVAILABLE_MAPS; }
 /* harmony export */ });
 
 String.prototype.interpolate = function(params) {
@@ -218,6 +219,8 @@ const PUBLIC_MAP_API_URL = "http://localhost/publicMaps.php";
 const IIIF_VIEWER_URL = "http://localhost/mirador/index.html?mf=${manifestId}&ci=${canvasId}";
 
 const EXAMPLE_FILES_DIR = "example-files/";
+
+const ENABLE_AVAILABLE_MAPS = "MISSING_ENV_VAR".ENABLE_AVAILABLE_MAPS;
 
 
 

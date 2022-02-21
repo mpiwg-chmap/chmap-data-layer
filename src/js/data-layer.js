@@ -2,6 +2,8 @@
 import * as DataLayerFactory from "./builder/layer-factory";
 import { BasicDataProcessor, Commons } from "@chmap/utilities";
 
+const ENABLE_AVAILABLE_MAPS = process.env.ENABLE_AVAILABLE_MAPS;
+
 const DataLayer = function() {
 
     const localEventEmitter = new Commons.EventEmitterClass();
@@ -298,8 +300,9 @@ const DataLayer = function() {
 
         const primaryBtnCls = 'btn btn-primary btn-sm mb-1';
 
-        const availableMapsBtn =
-        `<button class="${primaryBtnCls} load-available-maps-btn" data-lat="${node.Latitude}" data-lng="${node.Longitude}">Show available maps</button>`;
+        const availableMapsBtn = (ENABLE_AVAILABLE_MAPS.toLowerCase() === 'true')
+        ? `<button class="${primaryBtnCls} load-available-maps-btn" data-lat="${node.Latitude}" data-lng="${node.Longitude}">Show available maps</button>`
+        : '';
 
         switch (imgType) {
 
