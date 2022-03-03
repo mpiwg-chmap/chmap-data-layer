@@ -317,7 +317,7 @@ const DataLayer = function() {
                 const {manifestId, ID} = node;
 
                 btns.push(
-                `<button class="${primaryBtnCls} show-IIIF-viewer-btn" data-manifest-id="${manifestId}" data-canvas-id="${ID}">IIIF Viwer</button>`);
+                `<button class="${primaryBtnCls} show-IIIF-viewer-btn" data-manifest-id="${manifestId}" data-canvas-id="${ID}">IIIF Viewer</button>`);
 
                 btns.push(availableMapsBtn);
 

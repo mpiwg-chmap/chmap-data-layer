@@ -1,6 +1,6 @@
 {
   "name": "@chmap/data-layer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Users can import a csv, geo-json or iiif manifest file for presenting the all textual or image nodes on the leaflet map in a clustering effect.",
   "lib-main": "lib/js/index.js",
   "main": "dis/js/index.js",
