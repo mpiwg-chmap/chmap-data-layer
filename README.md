@@ -4,7 +4,7 @@ Users can import a csv, geo-json or iiif file, then textual or image data will b
 
 ## Demos
 
-- [example](http://www.github.io/chmap/data-layer/example)
+After you downloaded or cloned the project, you can open index.html under the example folder.
 
 ## Getting Started
 
